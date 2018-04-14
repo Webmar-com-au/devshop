@@ -58,7 +58,7 @@ before_install:
   - sudo chmod +x /usr/local/bin/robo
 
   # Install Drush
-  - wget https://github.com/drush-ops/drush/releases/download/8.1.9/drush.phar
+  - wget https://github.com/drush-ops/drush/releases/download/8.1.16/drush.phar
   - sudo mv drush.phar /usr/local/bin/drush
   - sudo chmod +x /usr/local/bin/drush
 
