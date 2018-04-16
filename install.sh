@@ -33,7 +33,7 @@
 #    --hostname           The desired fully qualified domain name to set as this machine's hostname
 #    --server-webserver   Set to 'nginx' if you want to use that as your webserver instead of apache.
 #    --makefile           The makefile to use to build the front-end site.
-#    --playbook           The Ansible playbook.yml file to use other than the included playbook.yml.
+#    --playbook           The Ansible playbook-apache.yml file to use other than the included playbook-apache.yml.
 #
 
 # Version used for cloning devshop playbooks
@@ -151,7 +151,7 @@ echo " Web Server: $SERVER_WEBSERVER"
 if [ $PLAYBOOK_PATH ]; then
     :
 # Detect playbook next to the install script
-elif [ -f "$DEVSHOP_SCRIPT_PATH/playbook.yml" ]; then
+elif [ -f "$DEVSHOP_SCRIPT_PATH/playbook-apache.yml" ]; then
     PLAYBOOK_PATH=$DEVSHOP_SCRIPT_PATH
 else
     PLAYBOOK_PATH=/usr/share/devshop
@@ -274,7 +274,7 @@ echo " Hostname: $HOSTNAME_FQDN"
 echo " MySQL Root Password: $MYSQL_ROOT_PASSWORD"
 
 # Clone the installer code if a playbook path was not set.
-if [ ! -f "$PLAYBOOK_PATH/playbook.yml" ]; then
+if [ ! -f "$PLAYBOOK_PATH/playbook-apache.yml" ]; then
   if [ ! -d "$PLAYBOOK_PATH" ]; then
     git clone $DEVSHOP_GIT_REPO $PLAYBOOK_PATH
     cd $PLAYBOOK_PATH
@@ -289,7 +289,7 @@ if [ ! -f "$PLAYBOOK_PATH/playbook.yml" ]; then
   echo $LINE
 fi
 
-echo " Playbook: $PLAYBOOK_PATH/playbook.yml "
+echo " Playbook: $PLAYBOOK_PATH/playbook-apache.yml "
 echo " Makefile: $MAKEFILE_PATH "
 echo $LINE
 
@@ -310,7 +310,7 @@ echo $LINE
 
 # If ansible playbook fails syntax check, report it and exit.
 if [[ ! `ansible-playbook -i inventory --syntax-check playbook.yml` ]]; then
-    echo " Ansible syntax check failed! Check installers/ansible/playbook.yml and try again."
+    echo " Ansible syntax check failed! Check installers/ansible/playbook-apache.yml and try again."
     exit 1
 fi
 
@@ -340,9 +340,9 @@ if [ -n "$ANSIBLE_EXTRA_VARS" ]; then
 fi
 
 if [ $SERVER_WEBSERVER == 'apache' ]; then
-  PLAYBOOK_FILE="playbook.yml"
+  PLAYBOOK_FILE="playbook-apache.yml"
 elif [ $SERVER_WEBSERVER == 'nginx' ]; then
-  PLAYBOOK_FILE="playbook-nginx.yml"
+  PLAYBOOK_FILE="playbook.yml"
 fi
 
 ansible-playbook -i inventory $PLAYBOOK_FILE --connection=local --extra-vars "$ANSIBLE_EXTRA_VARS" $ANSIBLE_VERBOSITY
