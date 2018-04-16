@@ -39,7 +39,7 @@
 # Version used for cloning devshop playbooks
 # Must be a branch or tag.
 DEVSHOP_VERSION=1.x
-SERVER_WEBSERVER=apache
+SERVER_WEBSERVER=nginx
 MAKEFILE_PATH=''
 AEGIR_USER_UID=${AEGIR_USER_UID:-1000}
 ANSIBLE_VERBOSITY="";
